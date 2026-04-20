@@ -89,13 +89,7 @@ Services:
 
 > **Note:** First run downloads the llama3.2 model (~2 GB). Wait ~2 minutes for Ollama to be ready before using the app.
 
-> **Note:** I have included a full Docker & Nginx orchestration setup (Dockerfile, docker-compose.yml, nginx.conf).
-
-Current Status: The Docker structure is logically complete with 3 services: Lumi-Frontend (Nginx), Lumi-Backend (FastAPI), and Lumi-Ollama.
-
-Note on Docker Build: You might encounter a failed to solve error during the Frontend build stage. This is due to a strict TypeScript compilation check within the Docker environment and path mapping for the Nginx config.
-
-Solution: I am working on optimizing the Multi-stage build to bypass these environment-specific quirks. In the meantime, please refer to the Video Demo or the Local Run instructions above to see the app in action.
+> **Note:** I have included a full Docker & Nginx orchestration setup (Dockerfile, docker-compose.yml, nginx.conf). Solution: I am working on optimizing the Multi-stage build to bypass these environment-specific quirks. In the meantime, please refer to the Video Demo or the Local Run instructions above to see the app in action.
 ---
 
 ### Environment Variables
