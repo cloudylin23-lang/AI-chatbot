@@ -88,8 +88,6 @@ Services:
 - Ollama → http://localhost:11434
 
 > **Note:** First run downloads the llama3.2 model (~2 GB). Wait ~2 minutes for Ollama to be ready before using the app.
-
-> **Note:** I have included a full Docker & Nginx orchestration setup (Dockerfile, docker-compose.yml, nginx.conf). Solution: I am working on optimizing the Multi-stage build to bypass these environment-specific quirks. In the meantime, please refer to the Video Demo or the Local Run instructions above to see the app in action.
 ---
 
 ### Environment Variables
