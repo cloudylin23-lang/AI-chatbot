@@ -25,7 +25,7 @@ export const api = {
   },
 
   // ── Streaming chat ──
-  streamChat(payload: { message: string; session_id: string; file_ids: string[] }): EventSource {
+  streamChat({}: { message: string; session_id: string; file_ids: string[] }): EventSource {
     // We POST via fetch + ReadableStream (EventSource doesn't support POST)
     // Return a controller so caller can abort
     return null as unknown as EventSource; // handled in hook below

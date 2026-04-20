@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import type { UploadedFile } from '../types';
 import { api } from '../services/api';
-import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
   onSend: (msg: string) => void;
@@ -14,9 +13,6 @@ interface Props {
 
 const ACCEPTED = ['application/pdf', 'text/plain', 'text/csv'];
 const MAX_MB = 10;
-
-const fmtBytes = (b: number) =>
-  b < 1024 ? `${b}B` : b < 1048576 ? `${(b / 1024).toFixed(0)}KB` : `${(b / 1048576).toFixed(1)}MB`;
 
 export default function MessageInput({
   onSend, isLoading, uploadedFiles, onUploadSuccess, onRemoveFile, sessionId,
