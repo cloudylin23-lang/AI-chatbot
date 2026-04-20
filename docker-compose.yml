@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: lumi-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    # Pull model on first start
+    entrypoint: ["/bin/sh", "-c", "ollama serve & sleep 5 && ollama pull llama3.2 && wait"]
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: lumi-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_MODEL=llama3.2
+      - MAX_FILE_SIZE_MB=10
+      - DB_PATH=/data/lumi.db
+    volumes:
+      - backend_data:/data
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: lumi-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
+  backend_data:
