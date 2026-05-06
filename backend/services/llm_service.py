@@ -2,6 +2,8 @@ import os
 from typing import Generator, Optional
 from dotenv import load_dotenv
 import ollama
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+client = ollama.Client(host=OLLAMA_BASE_URL)
 
 load_dotenv()
 
@@ -41,7 +43,7 @@ def chat(
     """Non-streaming chat (kept for compatibility)."""
     messages = build_messages(user_message, history, context, citations)
     try:
-        response = ollama.chat(model=OLLAMA_MODEL, messages=messages)
+        response = client.chat(model=OLLAMA_MODEL, messages=messages)
         return response["message"]["content"]
     except Exception as e:
         raise RuntimeError(f"LLM error: {str(e)}")
@@ -56,7 +58,7 @@ def chat_stream(
     """Streaming chat — yields text chunks."""
     messages = build_messages(user_message, history, context, citations)
     try:
-        stream = ollama.chat(model=OLLAMA_MODEL, messages=messages, stream=True)
+        stream = client.chat(model=OLLAMA_MODEL, messages=messages, stream=True)
         for chunk in stream:
             token = chunk.get("message", {}).get("content", "")
             if token:
@@ -78,7 +80,7 @@ def generate_quiz_json(context: str, num_questions: int = 5) -> str:
     """
     try:
         # Quan trọng: Thêm format='json' ở đây
-        response = ollama.chat(
+        response = client.chat(
             model=OLLAMA_MODEL, 
             messages=[{"role": "user", "content": prompt}],
             format='json' 
@@ -99,7 +101,7 @@ def generate_flashcards_json(context: str, num_cards: int = 8) -> str:
     """
     try:
         # Ép định dạng JSON
-        response = ollama.chat(
+        response = client.chat(
             model=OLLAMA_MODEL, 
             messages=[{"role": "user", "content": prompt}],
             format='json'

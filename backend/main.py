@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
 from routers import chat, upload, quiz
+from services.db_service import init_db
 
 load_dotenv()
 
@@ -12,6 +13,10 @@ app = FastAPI(
     version="1.0.0",
     description="Backend for AI chatbot with file processing",
 )
+
+@app.on_event("startup")
+def startup():
+    init_db()
 
 # CORS — cho phép frontend React gọi API
 app.add_middleware(

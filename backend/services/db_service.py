@@ -3,6 +3,8 @@ import json
 import os
 from datetime import datetime
 from typing import Optional
+from dotenv import load_dotenv
+load_dotenv()
 
 DB_PATH = os.getenv("DB_PATH", "lumi.db")
 
@@ -14,6 +16,7 @@ def get_conn():
 
 
 def init_db():
+    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True) if os.path.dirname(DB_PATH) else None
     with get_conn() as conn:
         conn.executescript("""
         CREATE TABLE IF NOT EXISTS sessions (
@@ -46,7 +49,6 @@ def init_db():
             created_at TEXT
         );
         """)
-
 
 def upsert_session(session_id: str, title: Optional[str] = None):
     now = datetime.utcnow().isoformat()

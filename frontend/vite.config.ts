@@ -6,8 +6,12 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/chat':   'http://localhost:8000',
-      '/upload': 'http://localhost:8000',
+      '/chat':     'http://localhost:8000',
+      '/upload':   'http://localhost:8000',
+      '/quiz':     'http://localhost:8000',
+      '/history':  'http://localhost:8000',
+      '/feedback': 'http://localhost:8000',
+      '/health':   'http://localhost:8000',
     },
   },
 })
